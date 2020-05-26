@@ -66,5 +66,10 @@ std::ostream& operator<<(std::ostream& s, bst<Key> const& t)
     bst<Key>::to_stream(t.root, s);
     return s;
 }
+template<typename Key> template<typename Fn>
+void bst<Key>::visit_in_order(Fn f) const
+{
+
+}
 
 #endif //ASD1_LABS_2020_BST_IMPL_H
