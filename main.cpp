@@ -18,14 +18,10 @@
 // - Valider les tests, en écrire de nouveaux si nécessaire
 // - template<typename Fn> void visit_in_order(Fn f) const;
 // - void display_indented(std::ostream &s) const noexcept ;
-// -  void linearize() noexcept ;
-// -  void balance() noexcept ;
+// - void linearize() noexcept ;
+// - void balance() noexcept ;
 
 //TODO Herzig
-// - bst(bst const &other);
-// - bst &operator=(bst const &other);
-// - ~bst();
-// - bool contains(Key const& k) const noexcept ; // recherche de l'élément
 
 //TODO Tout le monde
 // - Refactor le code

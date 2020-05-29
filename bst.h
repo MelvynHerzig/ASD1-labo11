@@ -33,7 +33,7 @@ public:
     ~bst();                              // doit libérer proprement toute la mémoire
                                          // une définition vide est actuellement fournie pour que le projet compile.
 
-    bool contains(Key const& k) const noexcept ; // recherche de l'élément
+    bool contains(Key const& k) const noexcept; // recherche de l'élément
 
     // toutes les fonctions se référant à min ou max lèvent une std::exception si l'arbre est vide
     Key const& min() const ;
@@ -62,6 +62,12 @@ private:
 
     static void insert(Node<Key> *&r, Key const &k);
     static void to_stream(Node<Key> *r, std::ostream &s) noexcept;
+
+    static void copyDescendant(Node<Key>*& parentDst, Node<Key>* const& parentSrc);
+
+    void destructNode(Node<Key>*& node);
+
+    static bool search(Node<Key>* const& node, Key const& k);
 };
 
 // toutes les fonctions sont définies dans le fichier inclus ci-dessous
