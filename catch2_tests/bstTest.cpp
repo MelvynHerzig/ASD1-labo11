@@ -66,30 +66,30 @@ TEST_CASE( "insert", "[bst]") {
     }
 }
 
-//TEST_CASE("display_indented", "[bst]") {
-//    bst<int> tree;
-//
-//    SECTION( "Tree from ASD1 slides" ) {
-//        for(int i : { 8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12 })
-//            tree.insert(i);
-//
-//        ostringstream oss;
-//        tree.display_indented(oss);
-//        REQUIRE( oss.str() == "8\n"
-//                              "|_ 4\n"
-//                              "|  |_ 1\n"
-//                              "|  |  |_ .\n"
-//                              "|  |  |_ 2\n"
-//                              "|  |     |_ .\n"
-//                              "|  |     |_ 3\n"
-//                              "|  |_ 6\n"
-//                              "|     |_ 5\n"
-//                              "|     |_ 7\n"
-//                              "|_ 11\n"
-//                              "   |_ 10\n"
-//                              "   |_ 12\n" );
-//    }
-//}
+TEST_CASE("display_indented", "[bst]") {
+    bst<int> tree;
+
+    SECTION( "Tree from ASD1 slides" ) {
+        for(int i : { 8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12 })
+            tree.insert(i);
+
+        ostringstream oss;
+        tree.display_indented(oss);
+        REQUIRE( oss.str() == "8\n"
+                              "|_ 4\n"
+                              "|  |_ 1\n"
+                              "|  |  |_ .\n"
+                              "|  |  |_ 2\n"
+                              "|  |     |_ .\n"
+                              "|  |     |_ 3\n"
+                              "|  |_ 6\n"
+                              "|     |_ 5\n"
+                              "|     |_ 7\n"
+                              "|_ 11\n"
+                              "   |_ 10\n"
+                              "   |_ 12\n" );
+    }
+}
 
 TEST_CASE("Copy constructor", "[bst]")
 {
@@ -326,34 +326,34 @@ TEST_CASE("max()", "[bst]")
 //   }
 //}
 
-//TEST_CASE("visit_in_order()", "[bst]")
-//{
-//
-//   SECTION( "Display and add 1 to key" )
-//   {
-//      bst<int> tree;
-//
-//      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
-//         tree.insert(i);
-//
-//      std::ostringstream oss;
-//      std::streambuf* p_cout_streambuf = std::cout.rdbuf();
-//      std::cout.rdbuf(oss.rdbuf());
-//
-//      tree.visit_in_order(displayPlusOne<int>);
-//
-//      std::cout.rdbuf(p_cout_streambuf); // restore
-//
-//      // test your oss content...
-//      std::cout << "Recu " << oss.str() << std::endl;
-//      std::cout << "Attendu " << "2 3 4 5 6 7 8 9 11 12 13 " << std::endl;
-//      REQUIRE(oss.str() == "2 3 4 5 6 7 8 9 11 12 13 ");
-//   }
-//
-//   SECTION( "Doing nothing on empty tree" )
-//   {
-//      bst<int> tree;
-//
-//      CHECK_NOTHROW(tree.visit_in_order(displayPlusOne<int>));
-//   }
-//}
+TEST_CASE("visit_in_order()", "[bst]")
+{
+
+   SECTION( "Display and add 1 to key" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      std::ostringstream oss;
+      std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+      std::cout.rdbuf(oss.rdbuf());
+
+      tree.visit_in_order(displayPlusOne<int>);
+
+      std::cout.rdbuf(p_cout_streambuf); // restore
+
+      // test your oss content...
+      std::cout << "Recu " << oss.str() << std::endl;
+      std::cout << "Attendu " << "2 3 4 5 6 7 8 9 11 12 13 " << std::endl;
+      REQUIRE(oss.str() == "2 3 4 5 6 7 8 9 11 12 13 ");
+   }
+
+   SECTION( "Doing nothing on empty tree" )
+   {
+      bst<int> tree;
+
+      CHECK_NOTHROW(tree.visit_in_order(displayPlusOne<int>));
+   }
+}
