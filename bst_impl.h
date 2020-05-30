@@ -116,6 +116,27 @@ void bst<Key>::symetricForEach(Node<Key>* const& r, Fn f)
    symetricForEach(r->right, f);
 }
 
+template <typename Key>
+void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix)
+{
+   if (r == nullptr)
+   {
+      s << ".\n";
+      return;
+   }
+
+   s << r->key << "\n";
+
+   if (r->left == nullptr && r->right == nullptr)
+   { return; }
+
+   s << prefix << "|_ ";
+   creationDisplayIndented(s, r->left, prefix + "|  ");
+
+   s << prefix << "|_ ";
+   creationDisplayIndented(s, r->right, prefix + "   ");
+}
+
 // méthodes de la classe bst
 
 template <typename Key>
@@ -168,10 +189,11 @@ bool bst<Key>::contains(Key const& k) const noexcept
 
 // TODO: Crausaz
 // toutes les fonctions se référant à min ou max lèvent une std::exception si l'arbre est vide
-template<typename Key>
+template <typename Key>
 Key const& bst<Key>::min() const
 {
-   if (root == nullptr) throw std::exception();
+   if (root == nullptr)
+   { throw std::exception(); }
 
    Node<Key>* m = root;
    while (m->left != nullptr)
@@ -181,10 +203,11 @@ Key const& bst<Key>::min() const
    return m->key;
 }
 
-template<typename Key>
+template <typename Key>
 Key const& bst<Key>::max() const
 {
-   if (root == nullptr) throw std::exception();
+   if (root == nullptr)
+   { throw std::exception(); }
 
    Node<Key>* m = root;
    while (m->right != nullptr)
@@ -193,19 +216,26 @@ Key const& bst<Key>::max() const
    }
    return m->key;
 }
-template<typename Key>
+
+template <typename Key>
 void bst<Key>::erase_min()
 {
-   if (root == nullptr) throw std::exception();
+   if (root == nullptr)
+   { throw std::exception(); }
 };
-template<typename Key>
-void bst<Key>::erase_max() {};
-template<typename Key>
-void bst<Key>::erase(Key const& k) noexcept {};
 
-template<typename Key>
-void bst<Key>::display_indented(std::ostream &s) const noexcept {
-    s << "does not work yet obviously";
+template <typename Key>
+void bst<Key>::erase_max()
+{};
+
+template <typename Key>
+void bst<Key>::erase(Key const& k) noexcept
+{};
+
+template <typename Key>
+void bst<Key>::display_indented(std::ostream& s) const noexcept
+{
+   creationDisplayIndented(s, root, "");
 }
 
 template <typename Key>
