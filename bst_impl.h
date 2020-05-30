@@ -266,14 +266,6 @@ template<typename Key>
 void bst<Key>::erase(Key const& k) noexcept {};
 
 template <typename Key>
-void bst<Key>::erase_max()
-{};
-
-template <typename Key>
-void bst<Key>::erase(Key const& k) noexcept
-{};
-
-template <typename Key>
 void bst<Key>::display_indented(std::ostream& s) const noexcept
 {
    creationDisplayIndented(s, root, "");
