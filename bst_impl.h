@@ -137,6 +137,37 @@ void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std
    creationDisplayIndented(s, r->right, prefix + "   ");
 }
 
+template <typename Key>
+void bst<Key>::deleteMinRecursive(Node<Key>*& node)
+{
+   if (node->left != nullptr) {
+      deleteMinRecursive(node->left);
+   }
+   else
+   {
+      Node<Key>* d = node->right;
+      delete node;
+      node = d;
+   }
+}
+
+template <typename Key>
+void bst<Key>::deleteMaxRecursive(Node<Key>*& node)
+{
+   if (node->right != nullptr) {
+      deleteMaxRecursive(node->right);
+   }
+   else
+   {
+      // TODO
+      /*
+      Node<Key>* d = node->right;
+      delete node;
+      node = d;
+       */
+   }
+}
+
 // méthodes de la classe bst
 
 template <typename Key>
@@ -217,12 +248,22 @@ Key const& bst<Key>::max() const
    return m->key;
 }
 
-template <typename Key>
+template<typename Key>
 void bst<Key>::erase_min()
 {
-   if (root == nullptr)
-   { throw std::exception(); }
+   if (root == nullptr) throw std::exception();
+   deleteMinRecursive(root);
 };
+
+template<typename Key>
+void bst<Key>::erase_max()
+{
+   if (root == nullptr) throw std::exception();
+   deleteMaxRecursive(root);
+};
+
+template<typename Key>
+void bst<Key>::erase(Key const& k) noexcept {};
 
 template <typename Key>
 void bst<Key>::erase_max()

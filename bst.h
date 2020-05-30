@@ -86,6 +86,10 @@ private:
    static void symetricForEach(Node<Key>* const& r, Fn f); // AJOUTE PAR QUENTIN - noexcept ?
 
    static void creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix); // AJOUTE PAR QUENTION - noexcept ?
+   
+
+   static void deleteMinRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
+   static void deleteMaxRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
 };
 
 // toutes les fonctions sont définies dans le fichier inclus ci-dessous
