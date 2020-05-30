@@ -8,8 +8,6 @@
 
 //TODO Crausaz
 // - Valider les tests, en écrire de nouveaux si nécessaire
-// - Key const& min() const ;
-// - Key const& max() const ;
 // - void erase_min() ;
 // - void erase_max() ;
 // - void erase(Key const& k) noexcept ;

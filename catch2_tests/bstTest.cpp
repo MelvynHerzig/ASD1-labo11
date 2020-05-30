@@ -171,47 +171,47 @@ TEST_CASE("contains()", "[bst]")
    }
 }
 
-//TEST_CASE("min()", "[bst]")
-//{
-//
-//   SECTION( "Min of tree from ASD1 slides" )
-//   {
-//      bst<int> tree;
-//
-//      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
-//         tree.insert(i);
-//
-//      REQUIRE(tree.min() == 1);
-//   }
-//
-//   SECTION( "Min of empty tree" ) {
-//
-//      bst<int> tree;
-//
-//      CHECK_THROWS_AS(tree.min(), std::exception);
-//   }
-//}
+TEST_CASE("min()", "[bst]")
+{
 
-//TEST_CASE("max()", "[bst]")
-//{
-//
-//   SECTION( "max of tree from ASD1 slides" )
-//   {
-//      bst<int> tree;
-//
-//      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
-//         tree.insert(i);
-//
-//      REQUIRE(tree.max() == 12);
-//   }
-//
-//   SECTION( "max of empty tree" ) {
-//
-//      bst<int> tree;
-//
-//      CHECK_THROWS_AS(tree.max(), std::exception);
-//   }
-//}
+   SECTION( "Min of tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      REQUIRE(tree.min() == 1);
+   }
+
+   SECTION( "Min of empty tree" ) {
+
+      bst<int> tree;
+
+      CHECK_THROWS_AS(tree.min(), std::exception);
+   }
+}
+
+TEST_CASE("max()", "[bst]")
+{
+
+   SECTION( "max of tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      REQUIRE(tree.max() == 12);
+   }
+
+   SECTION( "max of empty tree" ) {
+
+      bst<int> tree;
+
+      CHECK_THROWS_AS(tree.max(), std::exception);
+   }
+}
 
 //TEST_CASE("erase_min()", "[bst]")
 //{

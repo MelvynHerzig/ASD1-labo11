@@ -131,6 +131,43 @@ bool bst<Key>::contains(Key const& k) const noexcept
    return search(root, k);
 }
 
+// TODO: Crausaz
+// toutes les fonctions se référant à min ou max lèvent une std::exception si l'arbre est vide
+template<typename Key>
+Key const& bst<Key>::min() const
+{
+   if (root == nullptr) throw std::exception();
+
+   Node<Key>* m = root;
+   while (m->left != nullptr)
+   {
+      m = m->left;
+   }
+   return m->key;
+}
+
+template<typename Key>
+Key const& bst<Key>::max() const
+{
+   if (root == nullptr) throw std::exception();
+
+   Node<Key>* m = root;
+   while (m->right != nullptr)
+   {
+      m = m->right;
+   }
+   return m->key;
+}
+template<typename Key>
+void bst<Key>::erase_min()
+{
+   if (root == nullptr) throw std::exception();
+};
+template<typename Key>
+void bst<Key>::erase_max() {};
+template<typename Key>
+void bst<Key>::erase(Key const& k) noexcept {};
+
 template<typename Key>
 void bst<Key>::display_indented(std::ostream &s) const noexcept {
     s << "does not work yet obviously";
