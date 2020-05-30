@@ -84,6 +84,9 @@ private:
 
    template <typename Fn>
    static void symetricForEach(Node<Key>* const& r, Fn f); // AJOUTE PAR QUENTIN
+
+   static void deleteMinRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
+   static void deleteMaxRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
 };
 
 // toutes les fonctions sont définies dans le fichier inclus ci-dessous
