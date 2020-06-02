@@ -259,7 +259,7 @@ TEST_CASE("erase_max()", "[bst]")
 
       tree.erase_max();
 
-      REQUIRE(to_string(tree) == "10(4(1(.,2(.,3)),6(5,7)),11(10,12))");
+      REQUIRE(to_string(tree) == "8(4(1(.,2(.,3)),6(5,7)),11(10,.))");
    }
 
    SECTION( "erase max on one node tree " )
@@ -281,50 +281,51 @@ TEST_CASE("erase_max()", "[bst]")
    }
 }
 
-//TEST_CASE("erase()", "[bst]")
-//{
-//
-//   SECTION( "erase existing key of tree from ASD1 slides" )
-//   {
-//      bst<int> tree;
-//
-//      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
-//         tree.insert(i);
-//
-//      tree.erase(6);
-//
-//      REQUIRE(to_string(tree) == "8(4(1(.,2(.,3)),7(5,.)),11(10,12))");
-//   }
-//
-//   SECTION( "erase non existing key of tree from ASD1 slides" )
-//   {
-//      bst<int> tree;
-//
-//      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
-//         tree.insert(i);
-//
-//      CHECK_NOTHROW(tree.erase(22));
-//      REQUIRE( to_string(tree) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))" );
-//   }
-//
-//   SECTION( "erase the only key " )
-//   {
-//      bst<int> tree;
-//
-//      tree.insert(1);
-//
-//      tree.erase(1);
-//
-//      REQUIRE(to_string(tree) == "");
-//   }
-//
-//   SECTION( "erase on empty tree" ) {
-//
-//      bst<int> tree;
-//
-//      CHECK_THROWS_AS(tree.erase(5), std::exception);
-//   }
-//}
+TEST_CASE("erase()", "[bst]")
+{
+
+   SECTION( "erase existing key of tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      tree.erase(6);
+
+      REQUIRE(to_string(tree) == "8(4(1(.,2(.,3)),7(5,.)),11(10,12))");
+   }
+
+   SECTION( "erase non existing key of tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      CHECK_NOTHROW(tree.erase(22));
+      REQUIRE( to_string(tree) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))" );
+   }
+
+   SECTION( "erase the only key " )
+   {
+      bst<int> tree;
+
+      tree.insert(1);
+
+      tree.erase(1);
+
+      REQUIRE(to_string(tree) == "");
+   }
+
+   SECTION( "erase on empty tree" ) {
+
+      bst<int> tree;
+
+      CHECK_NOTHROW(tree.erase(5));
+      REQUIRE(to_string(tree) == "");
+   }
+}
 
 TEST_CASE("visit_in_order()", "[bst]")
 {

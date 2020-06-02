@@ -7,9 +7,6 @@
 
 
 //TODO Crausaz
-// - Valider les tests, en écrire de nouveaux si nécessaire
-// - void erase_max() ;
-// - void erase(Key const& k) noexcept ;
 
 //TODO Forestier
 // - Valider les tests, en écrire de nouveaux si nécessaire

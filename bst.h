@@ -87,9 +87,8 @@ private:
 
    static void creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix); // AJOUTE PAR QUENTION - noexcept ?
    
-
-   static void deleteMinRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
-   static void deleteMaxRecursive(Node<Key>*& node); // AJOUTE PAR CROCRO
+   static void deleteKey(Node<Key>*& node, const Key& k);   // AJOUTE PAR CROCRO
+   static Node<Key>* removeMin(Node<Key>*& node);   // AJOUTE PAR CROCRO
 };
 
 // toutes les fonctions sont définies dans le fichier inclus ci-dessous

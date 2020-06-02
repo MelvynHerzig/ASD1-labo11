@@ -138,34 +138,50 @@ void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std
 }
 
 template <typename Key>
-void bst<Key>::deleteMinRecursive(Node<Key>*& node)
+void bst<Key>::deleteKey(Node<Key>*& node, const Key& k)
 {
-   if (node->left != nullptr) {
-      deleteMinRecursive(node->left);
+   if (node == nullptr) return;
+
+   if (k < node->key) {
+      deleteKey(node->left, k);
+   }
+   else if (k > node->key)
+   {
+      deleteKey(node->right, k);
    }
    else
    {
-      Node<Key>* d = node->right;
-      delete node;
-      node = d;
+      Node<Key>* tmp = node;
+      if (node->left == nullptr)
+      {
+         node = node->right;
+      }
+      else if (node->right == nullptr)
+      {
+         node = node->left;
+      }
+      else
+      {
+         tmp = removeMin(node->right);
+         tmp->right = node->right;
+         tmp->left = node->left;
+         node = tmp;
+      }
+      delete tmp;
    }
 }
 
 template <typename Key>
-void bst<Key>::deleteMaxRecursive(Node<Key>*& node)
+Node<Key>* bst<Key>::removeMin(Node<Key>*& node)
 {
-   if (node->right != nullptr) {
-      deleteMaxRecursive(node->right);
-   }
-   else
+   if (node->left != nullptr)
    {
-      // TODO
-      /*
-      Node<Key>* d = node->right;
-      delete node;
-      node = d;
-       */
+      return removeMin(node->left);
    }
+
+   Node<Key>* tmp = node;
+   node = node->right;
+   return tmp;
 }
 
 // méthodes de la classe bst
@@ -218,8 +234,6 @@ bool bst<Key>::contains(Key const& k) const noexcept
    return search(root, k);
 }
 
-// TODO: Crausaz
-// toutes les fonctions se référant à min ou max lèvent une std::exception si l'arbre est vide
 template <typename Key>
 Key const& bst<Key>::min() const
 {
@@ -252,18 +266,22 @@ template<typename Key>
 void bst<Key>::erase_min()
 {
    if (root == nullptr) throw std::exception();
-   deleteMinRecursive(root);
-};
+   deleteKey(root, min());
+}
 
 template<typename Key>
 void bst<Key>::erase_max()
 {
    if (root == nullptr) throw std::exception();
-   deleteMaxRecursive(root);
-};
+   deleteKey(root, max());
+}
 
 template<typename Key>
-void bst<Key>::erase(Key const& k) noexcept {};
+void bst<Key>::erase(Key const& k) noexcept
+{
+   if (root == nullptr) return;
+   deleteKey(root, k);
+}
 
 template <typename Key>
 void bst<Key>::display_indented(std::ostream& s) const noexcept
