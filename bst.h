@@ -87,6 +87,10 @@ private:
 
    static void creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix); // AJOUTE PAR QUENTION - noexcept ?
    
+   static void linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n);
+
+   static Node<Key>* arborizeRecursive(Node<Key>*& L, size_t n);
+
    static void deleteKey(Node<Key>*& node, const Key& k);   // AJOUTE PAR CROCRO
    static Node<Key>* removeMin(Node<Key>*& node);   // AJOUTE PAR CROCRO
 };

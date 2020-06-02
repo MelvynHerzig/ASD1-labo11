@@ -138,6 +138,36 @@ void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std
 }
 
 template <typename Key>
+void bst<Key>::linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n)
+{
+   if(r == nullptr) return;
+
+   linearizeRecursive(r->right, L, n);
+   r->right = L;
+   L = r;
+   ++n;
+   linearizeRecursive(r->left, L, n);
+   r->left = nullptr;
+}
+
+template <typename Key>
+Node<Key>* bst<Key>::arborizeRecursive(Node<Key>*& L, size_t n)
+{
+   if(n == 0) return nullptr;
+
+   Node<Key>* rg = arborizeRecursive(L, (n-1)/2);
+   Node<Key>* r = L;
+   r->left = rg;
+   L = L->right;
+   r->right =  arborizeRecursive(L, n/2);
+   return r;
+}
+
+
+template <typename Key>
+void bst<Key>::deleteMinRecursive(Node<Key>*& node)
+
+template <typename Key>
 void bst<Key>::deleteKey(Node<Key>*& node, const Key& k)
 {
    if (node == nullptr) return;
@@ -290,6 +320,24 @@ void bst<Key>::display_indented(std::ostream& s) const noexcept
 }
 
 template <typename Key>
+void bst<Key>::linearize() noexcept
+{
+   Node<Key>* L = nullptr;
+   size_t compteur = 0;
+   linearizeRecursive(root, L, compteur);
+   root = L;
+}
+
+template <typename Key>
+void bst<Key>::balance() noexcept
+{
+   Node<Key>* L = nullptr;
+   size_t compteur = 0;
+   linearizeRecursive(root, L, compteur);
+   root = arborizeRecursive(L, compteur);
+}
+
+template <typename Key>
 std::ostream& operator<<(std::ostream& s, bst<Key> const& t)
 {
    bst<Key>::to_stream(t.root, s);
@@ -302,6 +350,8 @@ void bst<Key>::visit_in_order(Fn f) const
 {
    symetricForEach(root, f);
 }
+
+
 
 
 #endif //ASD1_LABS_2020_BST_IMPL_H
