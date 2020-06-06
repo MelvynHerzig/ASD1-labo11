@@ -163,10 +163,6 @@ Node<Key>* bst<Key>::arborizeRecursive(Node<Key>*& L, size_t n)
    return r;
 }
 
-
-template <typename Key>
-void bst<Key>::deleteMinRecursive(Node<Key>*& node)
-
 template <typename Key>
 void bst<Key>::deleteKey(Node<Key>*& node, const Key& k)
 {

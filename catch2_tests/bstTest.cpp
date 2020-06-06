@@ -358,3 +358,51 @@ TEST_CASE("visit_in_order()", "[bst]")
       CHECK_NOTHROW(tree.visit_in_order(displayPlusOne<int>));
    }
 }
+
+TEST_CASE("linearize()", "[bst]")
+{
+   SECTION( "linearize tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      tree.linearize();
+
+      REQUIRE(to_string(tree) == "1(.,2(.,3(.,4(.,5(.,6(.,7(.,8(.,10(.,11(.,12))))))))))");
+   }
+
+   SECTION("linearize empty tree")
+   {
+      bst<int> tree;
+
+      CHECK_NOTHROW(tree.linearize());
+
+      REQUIRE(to_string(tree) == "");
+
+   }
+}
+
+TEST_CASE("balance()", "[bst]")
+{
+   SECTION( "balance tree from ASD1 slides" )
+   {
+      bst<int> tree;
+
+      for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      tree.balance();
+
+      REQUIRE(to_string(tree) == "6(3(1(.,2),4(.,5)),10(7(.,8),11(.,12)))");
+   }
+
+   SECTION("balance empty tree")
+   {
+      bst<int> tree;
+
+      CHECK_NOTHROW(tree.balance());
+      REQUIRE(to_string(tree) == "");
+   }
+}

@@ -9,10 +9,6 @@
 //TODO Crausaz
 
 //TODO Forestier
-// - Valider les tests, en écrire de nouveaux si nécessaire
-// - void display_indented(std::ostream &s) const noexcept ;
-// - void linearize() noexcept ;
-// - void balance() noexcept ;
 
 //TODO Herzig
 
