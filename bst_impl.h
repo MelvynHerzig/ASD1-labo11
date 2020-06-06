@@ -15,14 +15,18 @@ void bst<Key>::insert(Node<Key>*& r, Key const& k)
    if (r == nullptr)
    {
       r = new Node<Key>{k, nullptr, nullptr};
-   } else if (k == r->key)
+   }
+   else if (k == r->key)
    {
       // k already there : do nothing.
-   } else if (k < r->key)
+   }
+   else if (k < r->key)
    {
       insert(r->left, k);
-   } else
-   { // k > r->key
+   }
+   else
+   {
+      // k > r->key
       insert(r->right, k);
    }
 }
@@ -56,8 +60,7 @@ void bst<Key>::to_stream(Node<Key>* r, std::ostream& s) noexcept
 template <typename Key>
 void bst<Key>::destructNode(Node<Key>*& node)
 {
-   if (node == nullptr)
-   { return; }
+   if (node == nullptr) return;
 
    if (node->left != nullptr)
    {
@@ -68,14 +71,14 @@ void bst<Key>::destructNode(Node<Key>*& node)
    {
       destructNode(node->right);
    }
+
    delete node;
 }
 
 template <typename Key>
 void bst<Key>::copyDescendant(Node<Key>*& parentDst, Node<Key>* const& parentSrc)
 {
-   if (parentSrc == nullptr)
-   { return; }
+   if (parentSrc == nullptr) return;
 
    //Left child copy
    if (parentSrc->left != nullptr)
@@ -96,28 +99,35 @@ template <typename Key>
 bool bst<Key>::search(Node<Key>* const& node, Key const& k)
 {
    if (node == nullptr)
-   { return false; }
+   {
+      return false;
+   }
    else if (node->key == k)
-   { return true; }
+   {
+      return true;
+   }
    else if (node->key > k)
-   { return search(node->left, k); }
+   {
+      return search(node->left, k);
+   }
    else
-   { return search(node->right, k); }
+   {
+      return search(node->right, k);
+   }
 }
 
 template <typename Key>
 template <typename Fn>
 void bst<Key>::symetricForEach(Node<Key>* const& r, Fn f)
 {
-   if (r == nullptr)
-   { return; }
+   if (r == nullptr) return;
    symetricForEach(r->left, f);
    f(r->key);
    symetricForEach(r->right, f);
 }
 
 template <typename Key>
-void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix)
+void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix) noexcept
 {
    if (r == nullptr)
    {
@@ -138,9 +148,9 @@ void bst<Key>::creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std
 }
 
 template <typename Key>
-void bst<Key>::linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n)
+void bst<Key>::linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n) noexcept
 {
-   if(r == nullptr) return;
+   if (r == nullptr) return;
 
    linearizeRecursive(r->right, L, n);
    r->right = L;
@@ -151,9 +161,9 @@ void bst<Key>::linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n)
 }
 
 template <typename Key>
-Node<Key>* bst<Key>::arborizeRecursive(Node<Key>*& L, size_t n)
+Node<Key>* bst<Key>::arborizeRecursive(Node<Key>*& L, size_t n) noexcept
 {
-   if(n == 0) return nullptr;
+   if (n == 0) return nullptr;
 
    Node<Key>* rg = arborizeRecursive(L, (n-1)/2);
    Node<Key>* r = L;
@@ -188,7 +198,7 @@ void bst<Key>::deleteKey(Node<Key>*& node, const Key& k)
       }
       else
       {
-         tmp = removeMin(node->right);
+         tmp = exitMin(node->right);
          tmp->right = node->right;
          tmp->left = node->left;
          node = tmp;
@@ -198,11 +208,11 @@ void bst<Key>::deleteKey(Node<Key>*& node, const Key& k)
 }
 
 template <typename Key>
-Node<Key>* bst<Key>::removeMin(Node<Key>*& node)
+Node<Key>* bst<Key>::exitMin(Node<Key>*& node)
 {
    if (node->left != nullptr)
    {
-      return removeMin(node->left);
+      return exitMin(node->left);
    }
 
    Node<Key>* tmp = node;
@@ -219,8 +229,7 @@ bst<Key>::bst() : root(nullptr)
 template <typename Key>
 bst<Key>::bst(bst const& other) : bst()
 {
-   if (other.root == nullptr)
-   { return; }
+   if (other.root == nullptr) return;
 
    root = new Node<Key>{other.root->key, nullptr, nullptr};
    copyDescendant(root, other.root);
@@ -229,8 +238,7 @@ bst<Key>::bst(bst const& other) : bst()
 template <typename Key>
 bst<Key>& bst<Key>::operator=(bst const& other)
 {
-   if (other.root == nullptr)
-   { return *this; }
+   if (other.root == nullptr) return *this;
 
    bst<Key> temp = other;
 
@@ -254,8 +262,7 @@ void bst<Key>::insert(Key const& k)
 template <typename Key>
 bool bst<Key>::contains(Key const& k) const noexcept
 {
-   if (root == nullptr)
-   { return false; }
+   if (root == nullptr) return false;
 
    return search(root, k);
 }
@@ -263,8 +270,7 @@ bool bst<Key>::contains(Key const& k) const noexcept
 template <typename Key>
 Key const& bst<Key>::min() const
 {
-   if (root == nullptr)
-   { throw std::exception(); }
+   if (root == nullptr) throw std::exception();
 
    Node<Key>* m = root;
    while (m->left != nullptr)
@@ -277,8 +283,7 @@ Key const& bst<Key>::min() const
 template <typename Key>
 Key const& bst<Key>::max() const
 {
-   if (root == nullptr)
-   { throw std::exception(); }
+   if (root == nullptr) throw std::exception();
 
    Node<Key>* m = root;
    while (m->right != nullptr)
@@ -318,6 +323,8 @@ void bst<Key>::display_indented(std::ostream& s) const noexcept
 template <typename Key>
 void bst<Key>::linearize() noexcept
 {
+   if (root == nullptr) return;
+
    Node<Key>* L = nullptr;
    size_t compteur = 0;
    linearizeRecursive(root, L, compteur);
@@ -327,6 +334,8 @@ void bst<Key>::linearize() noexcept
 template <typename Key>
 void bst<Key>::balance() noexcept
 {
+   if (root == nullptr) return;
+
    Node<Key>* L = nullptr;
    size_t compteur = 0;
    linearizeRecursive(root, L, compteur);

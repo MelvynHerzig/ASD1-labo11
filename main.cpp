@@ -5,16 +5,6 @@
 #include <iostream>
 #include "bst.h"
 
-
-//TODO Crausaz
-
-//TODO Forestier
-
-//TODO Herzig
-
-//TODO Tout le monde
-// - Refactor le code
-
 using namespace std;
 
 int main() {

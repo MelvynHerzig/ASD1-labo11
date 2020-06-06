@@ -10,7 +10,8 @@
 using namespace std;
 
 template<typename T>
-string to_string(T const& t) {
+string to_string(T const& t)
+{
     ostringstream oss;
     oss << t;
     return oss.str();
@@ -101,16 +102,25 @@ TEST_CASE("Copy constructor", "[bst]")
       for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
          tree.insert(i);
 
-      bst<int> treeCopied = tree;
+      bst<int> treeCopied {tree};
 
-      REQUIRE(to_string(treeCopied) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))");
+      REQUIRE( to_string(treeCopied) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))" );
    }
 
    SECTION( "Copied empty tree" ) {
 
       bst<int> tree;
-      bst<int> treeCopied = tree;
-      REQUIRE( to_string(treeCopied) == "" );
+      bst<int> treeCopied {tree};
+      REQUIRE( to_string(treeCopied).empty() );
+   }
+
+   SECTION( "Copied tree with one node" ) {
+
+      bst<int> tree;
+      tree.insert(4);
+
+      bst<int> treeCopied {tree};
+      REQUIRE( to_string(treeCopied) == "4" );
    }
 }
 
@@ -130,7 +140,7 @@ TEST_CASE("operator =", "[bst]")
 
       treeAffected = tree;
 
-      REQUIRE(to_string(treeAffected) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))");
+      REQUIRE( to_string(treeAffected) == "8(4(1(.,2(.,3)),6(5,7)),11(10,12))" );
    }
 
    SECTION( "Affected from empty tree" ) {
@@ -143,6 +153,15 @@ TEST_CASE("operator =", "[bst]")
       treeAffected = tree;
       REQUIRE( to_string(treeAffected) == "" );
    }
+
+   SECTION( "Affected tree with one node" ) {
+
+      bst<int> tree;
+      tree.insert(4);
+
+      bst<int> treeAffected = tree;
+      REQUIRE( to_string(treeAffected) == "4" );
+   }
 }
 
 TEST_CASE("contains()", "[bst]")
@@ -152,14 +171,19 @@ TEST_CASE("contains()", "[bst]")
    for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
       tree.insert(i);
 
-   SECTION( "Contains existing elements in tree from ASD1 slides" )
+   SECTION( "Contains left element in tree from ASD1 slides" )
    {
-      REQUIRE(tree.contains(7) == true);
+      REQUIRE( tree.contains(4) == true );
+   }
+
+   SECTION( "Contains right element in tree from ASD1 slides" )
+   {
+      REQUIRE( tree.contains(11) == true );
    }
 
    SECTION( "Contains non existing elements in tree from ASD1 slides" )
    {
-      REQUIRE(tree.contains(20) == false);
+      REQUIRE( tree.contains(20) == false );
    }
 
    SECTION( "Contains in empty tree" )
@@ -167,7 +191,7 @@ TEST_CASE("contains()", "[bst]")
 
       bst<int> tree;
 
-      REQUIRE(tree.contains(5) == false);
+      REQUIRE( tree.contains(5) == false );
    }
 }
 
@@ -179,6 +203,16 @@ TEST_CASE("min()", "[bst]")
       bst<int> tree;
 
       for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
+         tree.insert(i);
+
+      REQUIRE(tree.min() == 1);
+   }
+
+   SECTION( "Min of linearized tree" )
+   {
+      bst<int> tree;
+
+      for (int i : {1, 2, 3})
          tree.insert(i);
 
       REQUIRE(tree.min() == 1);
@@ -202,7 +236,17 @@ TEST_CASE("max()", "[bst]")
       for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
          tree.insert(i);
 
-      REQUIRE(tree.max() == 12);
+      REQUIRE( tree.max() == 12 );
+   }
+
+   SECTION( "max of tree with only left nodes" )
+   {
+      bst<int> tree;
+
+      for (int i : {3, 2, 1})
+         tree.insert(i);
+
+      REQUIRE( tree.min() == 1 );
    }
 
    SECTION( "max of empty tree" ) {
@@ -225,7 +269,7 @@ TEST_CASE("erase_min()", "[bst]")
 
       tree.erase_min();
 
-      REQUIRE(to_string(tree) == "8(4(2(.,3),6(5,7)),11(10,12))");
+      REQUIRE( to_string(tree) == "8(4(2(.,3),6(5,7)),11(10,12))" );
    }
 
    SECTION( "erase min on one node tree " )
@@ -236,14 +280,14 @@ TEST_CASE("erase_min()", "[bst]")
 
       tree.erase_min();
 
-      REQUIRE(to_string(tree) == "");
+      REQUIRE( to_string(tree).empty() );
    }
 
    SECTION( "erase min of empty tree" ) {
 
       bst<int> tree;
 
-      CHECK_THROWS_AS(tree.erase_min(), std::exception);
+      CHECK_THROWS_AS( tree.erase_min(), std::exception );
    }
 }
 
@@ -259,7 +303,7 @@ TEST_CASE("erase_max()", "[bst]")
 
       tree.erase_max();
 
-      REQUIRE(to_string(tree) == "8(4(1(.,2(.,3)),6(5,7)),11(10,.))");
+      REQUIRE( to_string(tree) == "8(4(1(.,2(.,3)),6(5,7)),11(10,.))" );
    }
 
    SECTION( "erase max on one node tree " )
@@ -270,14 +314,14 @@ TEST_CASE("erase_max()", "[bst]")
 
       tree.erase_max();
 
-      REQUIRE(to_string(tree) == "");
+      REQUIRE( to_string(tree).empty() );
    }
 
    SECTION( "max of empty tree" ) {
 
       bst<int> tree;
 
-      CHECK_THROWS_AS(tree.erase_min(), std::exception);
+      CHECK_THROWS_AS( tree.erase_min(), std::exception );
    }
 }
 
@@ -293,7 +337,7 @@ TEST_CASE("erase()", "[bst]")
 
       tree.erase(6);
 
-      REQUIRE(to_string(tree) == "8(4(1(.,2(.,3)),7(5,.)),11(10,12))");
+      REQUIRE( to_string(tree) == "8(4(1(.,2(.,3)),7(5,.)),11(10,12))" );
    }
 
    SECTION( "erase non existing key of tree from ASD1 slides" )
@@ -315,7 +359,7 @@ TEST_CASE("erase()", "[bst]")
 
       tree.erase(1);
 
-      REQUIRE(to_string(tree) == "");
+      REQUIRE( to_string(tree).empty() );
    }
 
    SECTION( "erase on empty tree" ) {
@@ -323,7 +367,7 @@ TEST_CASE("erase()", "[bst]")
       bst<int> tree;
 
       CHECK_NOTHROW(tree.erase(5));
-      REQUIRE(to_string(tree) == "");
+      REQUIRE( to_string(tree).empty() );
    }
 }
 
@@ -337,25 +381,24 @@ TEST_CASE("visit_in_order()", "[bst]")
       for (int i : {8, 4, 1, 2, 3, 6, 5, 7, 11, 10, 12})
          tree.insert(i);
 
+      // Détourne cout pour aller dans oss
       std::ostringstream oss;
       std::streambuf* p_cout_streambuf = std::cout.rdbuf();
       std::cout.rdbuf(oss.rdbuf());
 
       tree.visit_in_order(displayPlusOne<int>);
 
-      std::cout.rdbuf(p_cout_streambuf); // restore
+      // Restaure la sortie de cout
+      std::cout.rdbuf(p_cout_streambuf);
 
-      // test your oss content...
-      std::cout << "Recu " << oss.str() << std::endl;
-      std::cout << "Attendu " << "2 3 4 5 6 7 8 9 11 12 13 " << std::endl;
-      REQUIRE(oss.str() == "2 3 4 5 6 7 8 9 11 12 13 ");
+      REQUIRE( oss.str() == "2 3 4 5 6 7 8 9 11 12 13 " );
    }
 
    SECTION( "Doing nothing on empty tree" )
    {
       bst<int> tree;
 
-      CHECK_NOTHROW(tree.visit_in_order(displayPlusOne<int>));
+      CHECK_NOTHROW( tree.visit_in_order(displayPlusOne<int>) );
    }
 }
 
@@ -370,7 +413,7 @@ TEST_CASE("linearize()", "[bst]")
 
       tree.linearize();
 
-      REQUIRE(to_string(tree) == "1(.,2(.,3(.,4(.,5(.,6(.,7(.,8(.,10(.,11(.,12))))))))))");
+      REQUIRE( to_string(tree) == "1(.,2(.,3(.,4(.,5(.,6(.,7(.,8(.,10(.,11(.,12))))))))))" );
    }
 
    SECTION("linearize empty tree")
@@ -379,8 +422,7 @@ TEST_CASE("linearize()", "[bst]")
 
       CHECK_NOTHROW(tree.linearize());
 
-      REQUIRE(to_string(tree) == "");
-
+      REQUIRE( to_string(tree).empty() );
    }
 }
 
@@ -395,7 +437,7 @@ TEST_CASE("balance()", "[bst]")
 
       tree.balance();
 
-      REQUIRE(to_string(tree) == "6(3(1(.,2),4(.,5)),10(7(.,8),11(.,12)))");
+      REQUIRE( to_string(tree) == "6(3(1(.,2),4(.,5)),10(7(.,8),11(.,12)))" );
    }
 
    SECTION("balance empty tree")
@@ -403,6 +445,6 @@ TEST_CASE("balance()", "[bst]")
       bst<int> tree;
 
       CHECK_NOTHROW(tree.balance());
-      REQUIRE(to_string(tree) == "");
+      REQUIRE( to_string(tree).empty() );
    }
 }

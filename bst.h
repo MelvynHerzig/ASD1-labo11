@@ -20,10 +20,8 @@ std::ostream& operator<<(std::ostream& s, bst<Key> const& tree);
 
 template <typename Key>
 class bst
-{ // binary search tree
-
-   friend std::ostream& operator
-   <<<>(std::ostream &, bst<Key> const &);
+{
+   friend std::ostream& operator<< <>(std::ostream &, bst<Key> const &);
 
    Node<Key>* root;
 
@@ -33,22 +31,17 @@ public:
 
    void insert(Key const& k);
 
-   // les fonctions suivantes sont à mettre en oeuvre et à tester.
-
-   bst(bst const& other);               // doit offrir la garantie de base
-   bst& operator=(bst const& other);    // doit offrir la garantie forte
-   ~bst();                              // doit libérer proprement toute la mémoire
-   // une définition vide est actuellement fournie pour que le projet compile.
+   bst(bst const& other);               // Offre la garantie de base
+   bst& operator=(bst const& other);    // Offre la garantie forte
+   ~bst();                              // Libère proprement toute la mémoire
 
    bool contains(Key const& k) const noexcept; // recherche de l'élément
 
    // toutes les fonctions se référant à min ou max lèvent une std::exception si l'arbre est vide
    Key const& min() const;
-
    Key const& max() const;
 
    void erase_min();
-
    void erase_max();
 
    void erase(Key const& k) noexcept;
@@ -58,11 +51,7 @@ public:
    // elle est appelée pour tous les éléments de l'arbre par
    // ordre croissant.
 
-   // pour la fonction suivante un test vous est fourni et échoue actuellement
-
    void display_indented(std::ostream& s) const noexcept;
-
-   // les fonctions suivantes seront expliquées dans la video 5.14
 
    void linearize() noexcept;
 
@@ -83,16 +72,16 @@ private:
    static bool search(Node<Key>* const& node, Key const& k);
 
    template <typename Fn>
-   static void symetricForEach(Node<Key>* const& r, Fn f); // AJOUTE PAR QUENTIN - noexcept ?
+   static void symetricForEach(Node<Key>* const& r, Fn f);
 
-   static void creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix); // AJOUTE PAR QUENTION - noexcept ?
+   static void creationDisplayIndented(std::ostream& s, Node<Key>* const& r, std::string prefix) noexcept;
    
-   static void linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n);
+   static void linearizeRecursive(Node<Key>* r, Node<Key>*& L, size_t& n) noexcept;
 
-   static Node<Key>* arborizeRecursive(Node<Key>*& L, size_t n);
+   static Node<Key>* arborizeRecursive(Node<Key>*& L, size_t n) noexcept;
 
-   static void deleteKey(Node<Key>*& node, const Key& k);   // AJOUTE PAR CROCRO
-   static Node<Key>* removeMin(Node<Key>*& node);   // AJOUTE PAR CROCRO
+   static void deleteKey(Node<Key>*& node, const Key& k);
+   static Node<Key>* exitMin(Node<Key>*& node);
 };
 
 // toutes les fonctions sont définies dans le fichier inclus ci-dessous
